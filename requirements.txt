@@ -1,0 +1,5 @@
+torch>=2.1
+numpy>=1.26
+ipykernel>=6.0
+jupyter>=1.0
+notebook>=7.0
