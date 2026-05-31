@@ -62,9 +62,43 @@ num_epochs = 1
 
 For real generation quality, switch to `Seinfeld_long.txt`, raise `num_epochs` to 5 or 10, increase `hidden_dim` to 256 or 512.
 
+## Training run
+
+Trained on `data/Seinfeld_short.txt` (313k tokens, ~28k unique words) on Apple Silicon (MPS backend), 5 epochs, ~10 minutes total. Final training loss 4.07, down from 5.58 at the end of epoch 1. Random baseline for a 28k-word vocabulary is `ln(28000) ~= 10.2`, so the model has learned real local patterns. Below baseline-quality for coherent dialogue, on the boundary of "decent" for a portfolio-scale run on a small corpus.
+
 ## Sample output
 
-Once trained, the `generate` cell produces continuations that read like Seinfeld stage direction more than dialogue, but the names, beats, and rhythm survive the round trip through the LSTM. Sample to be added once the full long-text training run completes.
+Three samples committed under `docs/` from a single trained checkpoint, prime word `jerry`, generation length 400 tokens, varying temperature:
+
+- [`docs/sample_output_temp0.7.txt`](docs/sample_output_temp0.7.txt) - conservative (temp 0.7), repetitive but locally coherent.
+- [`docs/sample_output.txt`](docs/sample_output.txt) - default (temp 1.0), the headline sample.
+- [`docs/sample_output_temp1.2.txt`](docs/sample_output_temp1.2.txt) - exploratory (temp 1.2), more variety, more nonsense.
+
+First few lines at default temperature 1.0:
+
+```
+jerry: you want me to be a little thing?
+
+kramer: well, i don't know, i don't want to be a good.
+
+george: i can't have to have it?
+
+elaine: (to jerry) hey, you know, you know you have. i got it.
+
+jerry: well, it's the guy..
+
+elaine: i know, i'm going to be a little thing?(jerry enters.
+
+jerry: i was not a lot.
+
+george: well.
+
+jerry: (looking.)
+
+jerry: i don't understand, you have to have it.
+```
+
+Reads like Seinfeld parody written by someone with mild concussion. Character names are correct, punctuation tokens render back to symbols, dialogue rhythm survives. Plot coherence does not. Exactly what an LSTM language model trained for 5 epochs on a small corpus produces, and a useful baseline for the "what would a transformer give us instead" question in the extension list below.
 
 ## What I'd extend
 
